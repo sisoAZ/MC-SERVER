@@ -1,29 +1,41 @@
 on script load:
-    delete {kits::*}
+	delete {kits::*}
 
-    #Add Kit (Kit Name, Display Name, Icon, UniqueItem)
-    #Example: addKit("knight", "Knight", gold sword)
+	#Add Kit (Kit Name, Display Name, Icon, UniqueItem)
+	#Example: addKit("knight", "Knight", gold sword)
 
-    addKit("warrier", "Warrier", stone sword, blaze powder named "&cOverPower")
+	addKit("warrier", "Warrier", stone sword, blaze powder named "&cOverPower")
 
 function addKit(kitName: string, displayName: string, icon: item type, uniqueItem: item = air):
-    broadcast "%{_kitName}%, %{_icon}%, %{_uniqueItem}%"
-    give {_uniqueItem} to all players
-    add {_kitName} to {kits::*}
-    set {kit::%{_kitName}%::displayName} to {_displayName}
-    set {kit::%{_kitName}%::icon} to {_icon}
-    set {kit::%{_kitName}%::uniqueItem} to {_uniqueItem}
+	broadcast "%{_kitName}%, %{_icon}%, %{_uniqueItem}%"
+	give {_uniqueItem} to all players
+	add {_kitName} to {kits::*}
+	set {kit::%{_kitName}%::displayName} to {_displayName}
+	set {kit::%{_kitName}%::icon} to {_icon}
+	set {kit::%{_kitName}%::uniqueItem} to {_uniqueItem}
 
 function showKits(p: player):
-    set {_inv} to getKitsInventory()
-    open {_inv} to {_p}
+	set {_inv} to getKitsInventory()
+	open {_inv} to {_p}
 
 function getKitsInventory() :: inventory:
-    set {_inv} to chest with 6 row named "Kit Selector"
-    #名前順にソート
-    set {_sortKitsList::*} to alphabetically sorted {kits::*}
-    set {_slotNum} to 0
-    loop {_sortKitsList::*}:
-        set slot {_slotNum} of {_inv} to {kit::%loop-value%::icon} named "%{kit::%loop-value%::displayName}%"
-        add 1 to {_slotNum}
-    return {_inv}
+	set {_inv} to chest with 6 row named "Kit Selector"
+	#名前順にソート
+	set {_sortKitsList::*} to alphabetically sorted {kits::*}
+	set {_slotNum} to 0
+	loop {_sortKitsList::*}:
+		set slot {_slotNum} of {_inv} to {kit::%loop-value%::icon} named "%{kit::%loop-value%::displayName}%"
+		add 1 to {_slotNum}
+	return {_inv}
+
+function giveItems(p: player, kit: string):
+	if {_p} do not have sword:
+		give {_p} wooden sword with lore "&6Soulbound"
+	if {_p} do not have pickaxe:
+		give {_p} stone pickaxe with lore "&6Soulbound"
+	if {_p} do not have axe:
+		give {_p} stone axe with lore "&6Soulbound"
+	if {_p} do not have shovel:
+		give {_p} stone shovel with lore "&6Soulbound"
+	give {kit::%{kit.%{_p}%}%::uniqueItem} to {_p}
+	

@@ -2,9 +2,9 @@ on script load:
     delete {skills::*}
 
     #Add skill (skill Name, Display Name, Icon, Description)
-    #Example: addskill("mining", "Mining", stone pickaxe)
+    #Example: addSkill("mining", "Mining", stone pickaxe)
 
-    addskill("mining", "Mining", stone pickaxe, "AAAAAAAAAAA")
+    addSkill("mining", "Mining", stone pickaxe, "AAAAAAAAAAA")
 
 function addSkill(skillName: string, displayName: string, icon: item type, description = ""):
     broadcast "%{_skillName}%, %{_icon}%, %{_uniqueItem}%"
@@ -13,3 +13,17 @@ function addSkill(skillName: string, displayName: string, icon: item type, descr
     set {skill::%{_skillName}%::displayName} to {_displayName}
     set {skill::%{_skillName}%::icon} to {_icon}
     set {skill::%{_skillName}%::description} to {_description}
+
+function showSkills(p: player):
+    set {_inv} to getSkillsInventory()
+    open {_inv} to {_p}
+
+function getSkillsInventory() :: inventory:
+    set {_inv} to chest with 6 row named "Skill Selector"
+    #名前順にソート
+    set {_sortSkillsList::*} to alphabetically sorted {skills::*}
+    set {_slotNum} to 0
+    loop {_sortSkillsList::*}:
+        set slot {_slotNum} of {_inv} to {skill::%loop-value%::icon} named "%{skill::%loop-value%::displayName}%"
+        add 1 to {_slotNum}
+    return {_inv}
