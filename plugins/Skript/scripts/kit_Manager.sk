@@ -20,8 +20,10 @@ function showKits(p: player):
 
 function getKitsInventory() :: inventory:
     set {_inv} to chest with 6 row named "Kit Selector"
+    #名前順にソート
     set {_sortKitsList::*} to alphabetically sorted {kits::*}
-    broadcast "%{_sortKitsList::*}%"
+    set {_slotNum} to 0
     loop {_sortKitsList::*}:
-        set slot 0 of {_inv} to {kit::%loop-value%::icon} named "%{kit::%loop-value%::displayName}%"
+        set slot {_slotNum} of {_inv} to {kit::%loop-value%::icon} named "%{kit::%loop-value%::displayName}%"
+        add 1 to {_slotNum}
     return {_inv}
