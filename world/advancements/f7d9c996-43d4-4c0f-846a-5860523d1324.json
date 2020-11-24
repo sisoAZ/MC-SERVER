@@ -1,4 +1,10 @@
 {
+  "minecraft:recipes/decorations/torch": {
+    "criteria": {
+      "has_stone_pickaxe": "2020-11-24 19:54:45 +0900"
+    },
+    "done": true
+  },
   "minecraft:recipes/misc/fire_charge": {
     "criteria": {
       "has_blaze_powder": "2020-11-24 16:07:26 +0900"
@@ -8,6 +14,12 @@
   "minecraft:recipes/brewing/magma_cream": {
     "criteria": {
       "has_blaze_powder": "2020-11-24 16:07:26 +0900"
+    },
+    "done": true
+  },
+  "minecraft:story/upgrade_tools": {
+    "criteria": {
+      "stone_pickaxe": "2020-11-24 19:54:45 +0900"
     },
     "done": true
   },
