@@ -1,0 +1,15 @@
+on script load:
+    delete {skills::*}
+
+    #Add skill (skill Name, Display Name, Icon, Description)
+    #Example: addskill("mining", "Mining", stone pickaxe)
+
+    addskill("mining", "Mining", stone pickaxe, "AAAAAAAAAAA")
+
+function addSkill(skillName: string, displayName: string, icon: item type, description = ""):
+    broadcast "%{_skillName}%, %{_icon}%, %{_uniqueItem}%"
+    add {_skillName} to {skills::*}
+
+    set {skill::%{_skillName}%::displayName} to {_displayName}
+    set {skill::%{_skillName}%::icon} to {_icon}
+    set {skill::%{_skillName}%::description} to {_description}

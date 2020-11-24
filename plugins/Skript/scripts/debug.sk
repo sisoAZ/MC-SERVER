@@ -1,0 +1,4 @@
+command /ea <text>:
+    permission: siso
+    trigger:
+        evaluate arg
