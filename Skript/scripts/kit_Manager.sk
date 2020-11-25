@@ -18,8 +18,8 @@ function showKits(p: player):
 	set {_inv} to getKitsInventory()
 	open {_inv} to {_p}
 
-function getKitsInventory() :: inventory:
-	set {_inv} to chest with 6 row named "Kit Selector"
+function getKitsInventory(invName: string = "Kit Selector") :: inventory:
+	set {_inv} to chest with 6 row named {_invName}
 	#名前順にソート
 	set {_sortKitsList::*} to alphabetically sorted {kits::*}
 	set {_slotNum} to 0
@@ -28,7 +28,10 @@ function getKitsInventory() :: inventory:
 		add 1 to {_slotNum}
 	return {_inv}
 
-function giveItems(p: player, kit: string):
+function changeKit(p: player, kit: string):
+	set {kit.%{_p}%} to {_kit}
+
+function giveItems(p: player):
 	if {_p} do not have sword:
 		give {_p} wooden sword with lore "&6Soulbound"
 	if {_p} do not have pickaxe:
@@ -38,4 +41,22 @@ function giveItems(p: player, kit: string):
 	if {_p} do not have shovel:
 		give {_p} stone shovel with lore "&6Soulbound"
 	give {kit::%{kit.%{_p}%}%::uniqueItem} to {_p}
-	
+
+on portal:
+	send "SYOKUTYEN"
+	"%event-teleport cause%" is "nether portal" #ネザーかの判定
+	send "Debug %event-teleport cause%"
+	cancel event
+	command "/tp %player% ~10 ~ ~"
+	wait 10 tick
+	showKits(player)
+
+on inventory click:
+	name of player's current inventory contain "Kit Selector"
+	clicked item is not air
+	name of clicked item is set
+
+	send "Selected Item %uncolored name of clicked item in lower case%"
+	close player's inventory
+	changeKit(player, uncolored name of clicked item in lower case)
+	giveItems(player)

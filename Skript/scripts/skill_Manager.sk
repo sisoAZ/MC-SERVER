@@ -4,9 +4,11 @@ on script load:
     #Add skill (skill Name, Display Name, Icon, Description)
     #Example: addSkill("mining", "Mining", stone pickaxe)
 
+    addSkill("combat", "Combat", stone sword, "COMBAT Description")
     addSkill("mining", "Mining", stone pickaxe, "AAAAAAAAAAA")
+    addSkill("farming", "Farming", wheat, "Farming!!")
 
-function addSkill(skillName: string, displayName: string, icon: item type, description = ""):
+function addSkill(skillName: string, displayName: string, icon: item type, description: string = ""):
     broadcast "%{_skillName}%, %{_icon}%, %{_uniqueItem}%"
     add {_skillName} to {skills::*}
 
@@ -18,12 +20,19 @@ function showSkills(p: player):
     set {_inv} to getSkillsInventory()
     open {_inv} to {_p}
 
-function getSkillsInventory() :: inventory:
-    set {_inv} to chest with 6 row named "Skill Selector"
-    #名前順にソート
-    set {_sortSkillsList::*} to alphabetically sorted {skills::*}
-    set {_slotNum} to 0
+function getSkillsInventory(invName: string = "Skill Selector") :: inventory:
+    set {_inv} to chest with 6 row named {_invName}
+    set {_sortSkillsList::*} to {skills::*}
+    set {_slotNum} to 20
     loop {_sortSkillsList::*}:
         set slot {_slotNum} of {_inv} to {skill::%loop-value%::icon} named "%{skill::%loop-value%::displayName}%"
         add 1 to {_slotNum}
+    
+    #Inv Design
+    loop 55 times:
+        set {_slotNum} to loop-number - 1
+        if slot {_slotNum} of {_inv} is not air:
+            continue
+        set slot {_slotNum} of {_inv} to gray glass pane named "&r"
     return {_inv}
+
